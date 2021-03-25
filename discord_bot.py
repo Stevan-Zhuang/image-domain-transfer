@@ -37,6 +37,8 @@ def setup(model: LightningModule, config: Namespace) -> commands.Bot:
 
 def run(bot: commands.Bot) -> None:
     """Brings the bot online."""
+    # Get the discord token through a .env file
+    # This is for security purposes
     load_dotenv()
     DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
     bot.run(DISCORD_TOKEN)
