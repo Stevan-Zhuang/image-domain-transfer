@@ -1,6 +1,6 @@
 # image-domain-transfer
-This repository contains a Discord bot that can take input images\
-and output images with the domain attributes changed.
+This repository contains a Discord bot that can take input images and output images\
+with the domain attributes changed, based on the specification of the user.
 
 This was done for my high school computer science 12 final project.\
 Model is an implementation of the StarGAN model in PyTorch Lightning\
