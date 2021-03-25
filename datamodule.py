@@ -79,7 +79,7 @@ class CelebADataset(Dataset):
 class CelebADataModule(pl.LightningDataModule):
     """
     A DataModule container for a sample of the CelebA dataset
-    with only 2100 images. Prepares data to be used by the model
+    with only 21000 images. Prepares data to be used by the model
     (Transforms, split, etc).
     """
     def __init__(self, config: Namespace) -> None:
