@@ -14,7 +14,10 @@ Training can be run with
 python main.py --train True
 ```
 By default, pretrained weights are expected to exist and be used.\
-To start from new weights, use ```--pretrained False```\
+To start from new weights, use
+```shell
+python main.py --train True --pretrained False
+```
 Training on gpu is not supported, but may still work without modification\
 as a PyTorch Lightning trainer argument.
 
