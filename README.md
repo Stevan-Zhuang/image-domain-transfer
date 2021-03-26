@@ -1,4 +1,5 @@
 # image-domain-transfer
+## about
 This repository contains a Discord bot that can take input images and output images\
 with the domain attributes changed, based on the specification of the user.
 
@@ -6,6 +7,7 @@ This was done for my high school computer science 12 final project.\
 Model is an implementation of the StarGAN model in PyTorch Lightning\
 from the paper https://arxiv.org/abs/1711.09020.
 
+## training
 While I attempted to train my own weights, both from scratch and from pretrained,\
 I didn't achieve any strong results. Read about my training process [here](https://wandb.ai/stevan-zhuang/Image%20Domain%20Transfer%20GAN/reports/Computer-Science-12-Final-Project-StarGAN-Training--Vmlldzo1NTQ2MzY?accessToken=8x8r4lqay36gg8zmlz9zgd1k0awrx7lix0okl78re04wwvpadhn8d1trbi4za1a0).
 
