@@ -17,7 +17,7 @@ from pytorch_lightning import LightningModule
 bot = commands.Bot(command_prefix='!', case_insensitive=True)
 
 def setup(model: LightningModule, config: Namespace) -> commands.Bot:
-    """Prepares the bot."""
+    """Prepare the bot."""
     bot.config = config
     bot.id = 762394671745597490
 
@@ -36,7 +36,7 @@ def setup(model: LightningModule, config: Namespace) -> commands.Bot:
     return bot
 
 def run(bot: commands.Bot) -> None:
-    """Brings the bot online."""
+    """Bring the bot online."""
     # Get the discord token through a .env file
     # This is for security purposes
     load_dotenv()
@@ -53,7 +53,7 @@ help_message = "Upload an image of a face to translate attributes."
 
 @bot.command(name='face', help=help_message)
 async def face(ctx: discord.ext.commands.Context) -> None:
-    """Creates the reaction panel for attribute selection."""
+    """Create the reaction panel for attribute selection."""
     try:
         # Fetch the sent image
         url = ctx.message.attachments[0].url
