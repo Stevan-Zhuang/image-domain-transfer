@@ -16,7 +16,7 @@ from torch import Tensor
 from pytorch_lightning import LightningModule
 
 def gradient_penalty(prob_interpolated: Tensor, interpolated: Tensor) -> Tensor:
-    """Calculates gradient penalty for WGAN-GP"""
+    """Calculate gradient penalty for WGAN-GP"""
     # Gradient target
     weight = torch.ones_like(prob_interpolated)
     gradients = torch.autograd.grad(
@@ -85,7 +85,7 @@ def plot_image(plot, data: Tensor, name: str, config: Namespace) -> None:
     plot.yaxis.set_visible(False)
 
 def image_to_tensor(data: Image, config: Namespace) -> Tensor:
-    """Takes in a PIL Image and returns a float tensor."""
+    """Take in a PIL Image and return a float tensor."""
     # Crop the image into a square
     preprocess = T.Compose([
         T.CenterCrop(min(data.size)),
@@ -98,7 +98,7 @@ def image_to_tensor(data: Image, config: Namespace) -> Tensor:
     return preprocess(data).unsqueeze(0)
 
 def tensor_to_image(data: Tensor, config: Namespace) -> Image:
-    """Takes in a float tensor and returns a PIL Image."""
+    """Take in a float tensor and return a PIL Image."""
     # Stop tracking gradients and remove batch dimension
     data = data.detach().squeeze(0)
 
