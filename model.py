@@ -150,7 +150,7 @@ class DomainTransferGAN(pl.LightningModule):
         )
 
     def classification_loss(self, y_pred: Tensor, y: Tensor) -> Tensor:
-        """Calculates how close predicted logits are to ground truth."""
+        """Calculate how close predicted logits are to ground truth."""
         batch_size = y_pred.size(0)
         loss = F.binary_cross_entropy_with_logits(
             y_pred, y, reduction='sum'
@@ -158,7 +158,7 @@ class DomainTransferGAN(pl.LightningModule):
         return loss / batch_size
 
     def load_checkpoint(self) -> None:
-        """Loads pretrained weights"""
+        """Load pretrained weights"""
         g_state = torch.load(self.config.g_checkpoint)
         d_state = torch.load(self.config.d_checkpoint)
 
@@ -166,12 +166,12 @@ class DomainTransferGAN(pl.LightningModule):
         self.discriminator.load_state_dict(d_state)
 
     def save_checkpoint(self) -> None:
-        """Saves model weights for further training or deployment."""
+        """Save model weights for further training or deployment."""
         torch.save(self.generator.state_dict(), self.config.g_checkpoint)
         torch.save(self.discriminator.state_dict(), self.config.d_checkpoint)
 
     def checkpoints_exist(self) -> bool:
-        """Returns whether model checkpoints exist at file paths."""
+        """Return whether model checkpoints exist at file paths."""
         return (os.path.exists(self.config.g_checkpoint)
                 and os.path.exists(self.config.d_checkpoint))
 
