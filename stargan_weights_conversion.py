@@ -6,7 +6,7 @@ from argparse import Namespace
 from pytorch_lightning import LightningModule
 
 def run(model: LightningModule, config: Namespace) -> None:
-    """Formats pretrained StarGAN weights to be used."""
+    """Format pretrained StarGAN weights to be used."""
     # StarGAN was originally trained on gpu, switch to cpu
     g_state_dict = torch.load(config.stargan_g, map_location=torch.device('cpu'))
     d_state_dict = torch.load(config.stargan_d, map_location=torch.device('cpu'))
