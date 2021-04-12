@@ -5,7 +5,7 @@ from pytorch_lightning import seed_everything
 from model import DomainTransferGAN
 from datamodule import CelebADataModule
 import stargan_weights_conversion
-import pytorch_lightning as pl 
+import pytorch_lightning as pl
 from pytorch_lightning.loggers import WandbLogger
 
 # Model deployment
@@ -23,11 +23,12 @@ if __name__ =='__main__':
 
     # Trainer arguments
     parser.add_argument('--n_epochs', type=int, default=1, help="number of epochs the model will train for")
+    parser.add_argument('--log', type=int, default=1, help="whether to log to weights and biases")
     parser.add_argument('--log_steps', type=int, default=5, help="duration of epochs between logging")
     parser.add_argument('--train_percent', type=float, default=0.1, help="how much of the training dataset is used")
 
     # Model hyperparameters
-    parser.add_argument('--pretrained', type=bool, default=True, help="if training from pretrained weights")
+    parser.add_argument('--pretrained', type=int, default=1, help="if training from pretrained weights")
     parser.add_argument('--lr', type=float, default=1e-4, help="learning rate for the model")
     parser.add_argument('--beta1', type=float, default=0.5, help="beta1 for model optimizer")
     parser.add_argument('--beta2', type=float, default=0.999, help="beta2 for model optimizer")
@@ -59,8 +60,8 @@ if __name__ =='__main__':
                         default=['Black_Hair', 'Blond_Hair', 'Brown_Hair', 'Male', 'Young'])
 
     # File paths
-    parser.add_argument('--image_folder', type=str, default='celeba_data/images', help="file path to images")
-    parser.add_argument('--attr_csv', type=str, default='celeba_data/labels/list_attr_celeba.csv', help="file path to attribute csv")
+    parser.add_argument('--image_folder', type=str, default='../datasets/CelebA/images', help="file path to images")
+    parser.add_argument('--attr_csv', type=str, default='../datasets/CelebA/labels/list_attr_celeba.csv', help="file path to attribute csv")
     parser.add_argument('--stargan_g', type=str, default='models/200000-G.ckpt', help="file path to pretrained generator")
     parser.add_argument('--stargan_d', type=str, default='models/200000-D.ckpt', help="file path to pretrained discriminator")
     parser.add_argument('--g_checkpoint', type=str, default='models/G_pretrained.ckpt', help="file path to generator checkpoint")
@@ -68,7 +69,7 @@ if __name__ =='__main__':
     parser.add_argument('--result_path', type=str, default='results', help="file path to save image results")
 
     # Program
-    parser.add_argument('--train', type=bool, default=False, help="whether training model or predicting")
+    parser.add_argument('--train', type=int, default=0, help="whether training model or predicting")
     parser.add_argument('--gen_images', type=int, default=4, help="how many images to save in one result")
 
     config = parser.parse_args()
@@ -76,14 +77,14 @@ if __name__ =='__main__':
 
     # Set random seed for reproducibility
     seed_everything(6)
-    
+
     model = DomainTransferGAN(config)
-    
+
     # Don't overwrite pre-existing checkpoints
     if config.pretrained and not model.checkpoints_exist():
         print("Running conversion on pretrained weights...")
         stargan_weights_conversion.run(model, config)
-    
+
     if config.pretrained:
         print("Using pretrained weights.")
 
@@ -93,12 +94,13 @@ if __name__ =='__main__':
 
     if config.train:
         celeba_dm = CelebADataModule(config)
-        
+
         # Log to Weights and Biases
         wandb_logger = WandbLogger(
             name='training', version='11',
             project='Image Domain Transfer GAN'
-        )
+        ) if config.log else None
+        
         trainer = pl.Trainer(
             logger=wandb_logger,
             max_epochs=config.n_epochs,
@@ -113,7 +115,7 @@ if __name__ =='__main__':
 
         # Save examples of generated images
         trainer.test()
-        
+
     if not config.train:
         # Predicting, setup and launch discord bot
         bot = discord_bot.setup(model, config)
